@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .error {
+            color: red;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Form Validation</h1>
+    <form id="myForm">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <span class="error" id="nameError"></span>
+        <br><br>
+
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email">
+        <span class="error" id="emailError"></span>
+        <br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password">
+        <span class="error" id="passwordError"></span>
+        <br><br>
+
+        <label for="age">Age:</label>
+        <input type="text" id="age" name="age">
+        <span class="error" id="ageError"></span>
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $("#myForm").on("submit", function (e) {
+                let isValid = true;
+
+                // Name validation
+                const name = $("#name").val().trim();
+                if (name === "") {
+                    isValid = false;
+                    $("#nameError").text("Name must not be empty.");
+                } else {
+                    $("#nameError").text("");
+                }
+
+                // Email validation
+                const email = $("#email").val().trim();
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(email)) {
+                    isValid = false;
+                    $("#emailError").text("Please enter a valid email.");
+                } else {
+                    $("#emailError").text("");
+                }
+
+                // Password validation
+                const password = $("#password").val();
+                if (password.length < 8) {
+                    isValid = false;
+                    $("#passwordError").text("Password must be at least 8 characters long.");
+                } else {
+                    $("#passwordError").text("");
+                }
+
+                // Age validation
+                const age = $("#age").val().trim();
+                if (!/^[1-9]\d*$/.test(age)) {
+                    isValid = false;
+                    $("#ageError").text("Age must be a number greater than 0.");
+                } else {
+                    $("#ageError").text("");
+                }
+
+                // Prevent form submission if validation fails
+                if (!isValid) {
+                    e.preventDefault();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
